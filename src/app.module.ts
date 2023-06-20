@@ -12,7 +12,16 @@ import { UsersModule } from './users/users.module';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { User } from './users/user.entity';
+import { SubscriptionAdminController } from './subscription-admin/subscription-admin.controller';
+import { SubscriptionAdminService } from './subscription-admin/subscription-admin.service';
+import { SubscriptionAdmin } from './subscription-admin/subscription-admin.entity';
+import { PlansModule } from './plans/plans.module';
 
+import { RazorpayModule } from './service/razorpay.module';
+import { StateModule } from './state/state.module';
+import { StateController } from './state/state.controller';
+import { StateService } from './state/state.service';
+import { State } from './state/state.entity';
 
 
 @Module({
@@ -24,11 +33,12 @@ import { User } from './users/user.entity';
       username: 'root',
       password: '',
       database: 'tradeshine',
-      entities: [User],
+      entities: [User,SubscriptionAdmin,State],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([ExchangeSheet]),  TypeOrmModule.forFeature([User])],
-  controllers: [ AppController,ExchangeSheetController,UsersController],
-  providers: [AppService,ExchangeSheetService,UsersService],
+    TypeOrmModule.forFeature([ExchangeSheet]),  TypeOrmModule.forFeature([User]),TypeOrmModule.forFeature([SubscriptionAdmin]), 
+    PlansModule,RazorpayModule, TypeOrmModule.forFeature([State])],
+  controllers: [ AppController,ExchangeSheetController,UsersController,SubscriptionAdminController,StateController],
+  providers: [AppService,ExchangeSheetService,UsersService,SubscriptionAdminService,StateService],
 })
-export class AppModule {}
+export class AppModule {}    
