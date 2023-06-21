@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { City } from './entities/city.entity';
 
-
 @Injectable()
 export class CityService {
   constructor(
@@ -13,24 +12,36 @@ export class CityService {
     private readonly cityRepository: Repository<City>,
   ) {}
 
-  async create(createCityDto: CreateCityDto) {
+  async create(createCityDto: CreateCityDto): Promise<City> {
     const city = this.cityRepository.create(createCityDto);
     return this.cityRepository.save(city);
   }
 
-  findAll() {
-    return `This action returns all city`;
+  async findAll(): Promise<City[]> {
+    return this.cityRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} city`;
+  async findOne(city_id: number): Promise<City> {
+    return this.cityRepository.findOne({where: {city_id}});
   }
 
-  update(id: number, updateCityDto: UpdateCityDto) {
-    return `This action updates a #${id} city`;
+  async update(city_id: number, updateCityDto: UpdateCityDto): Promise<City> {
+    const city = await this.cityRepository.findOne({where:{city_id}});
+    if (!city) {
+      throw new Error(`City with ID ${city_id} not found.`);
+    }
+
+    Object.assign(city, updateCityDto);
+
+    return this.cityRepository.save(city);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} city`;
+  async remove(city_id: number): Promise<void> {
+    const city = await this.cityRepository.findOne({where:{city_id}});
+    if (!city) {
+      throw new Error(`City with ID ${city_id} not found.`);
+    }
+
+    await this.cityRepository.remove(city);
   }
 }
