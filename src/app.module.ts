@@ -22,6 +22,9 @@ import { CityModule } from './city/city.module';
 import { City } from './city/entities/city.entity';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { CustomerModule } from './customer/customer.module';
+import { Customer } from './customer/entities/customer.entity';
+
 
 @Module({
   imports: [
@@ -32,11 +35,11 @@ import { User } from './users/entities/user.entity';
       username: 'root',
       password: '',
       database: 'tradeshine',
-      entities: [SubscriptionAdmin,State,Country,City,User],
+      entities: [SubscriptionAdmin,State,Country,City,User,Customer],
       synchronize: true,
     }),
     TypeOrmModule.forFeature([ExchangeSheet]),TypeOrmModule.forFeature([SubscriptionAdmin]), 
-    PlansModule,RazorpayModule, TypeOrmModule.forFeature([State]), TypeOrmModule.forFeature([Country]), CityModule, UsersModule],
+    PlansModule,RazorpayModule, TypeOrmModule.forFeature([State]), TypeOrmModule.forFeature([Country]), CityModule, UsersModule, CustomerModule],
   controllers: [ AppController,ExchangeSheetController,SubscriptionAdminController,StateController,CountryController],
   providers: [AppService,ExchangeSheetService,SubscriptionAdminService,StateService,CountryService],
 })
