@@ -1,20 +1,26 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './local.strategy';
-import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UsersModule } from '../users/users.module';
-import { User } from 'src/users/entities/user.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersService } from 'src/users/users.service';
+import { AuthController } from './auth.controller';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UsersModule } from 'src/users/users.module';
+import { JwtStrategy } from './jwt.strategy';
+import { randomBytes } from 'crypto';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    UsersModule,
     PassportModule,
-    UsersModule, // Import the UserModule or any other module you need for authentication
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async () => ({
+        secret: randomBytes(32).toString('hex'),
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy,UsersService],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}
