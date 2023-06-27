@@ -24,6 +24,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { CustomerModule } from './customer/customer.module';
 import { Customer } from './customer/entities/customer.entity';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -39,7 +40,7 @@ import { Customer } from './customer/entities/customer.entity';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([ExchangeSheet]),TypeOrmModule.forFeature([SubscriptionAdmin]), 
-    PlansModule,RazorpayModule, TypeOrmModule.forFeature([State]), TypeOrmModule.forFeature([Country]), CityModule, UsersModule, CustomerModule],
+    PlansModule,RazorpayModule, TypeOrmModule.forFeature([State]), TypeOrmModule.forFeature([Country]), CityModule, UsersModule, CustomerModule,AuthModule],
   controllers: [ AppController,ExchangeSheetController,SubscriptionAdminController,StateController,CountryController],
   providers: [AppService,ExchangeSheetService,SubscriptionAdminService,StateService,CountryService],
 })

@@ -15,4 +15,8 @@ export class SubscriptionAdminService {
     const subscriptionAdmin = this.subscriptionAdminRepository.create(createSubscriptionAdminDto);
     return this.subscriptionAdminRepository.save(subscriptionAdmin);
   }
+
+  async getSubscriptionAdmin(admin_id: number): Promise<SubscriptionAdmin> {
+    return this.subscriptionAdminRepository.findOne({where: {admin_id}});
+  }
 }

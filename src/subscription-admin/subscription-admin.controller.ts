@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { SubscriptionAdminService } from './subscription-admin.service';
 import { CreateSubscriptionAdminDto } from './dto/create-subscription-admin.dto';
 import { RazorpayService } from '../service/razorpay.service';
@@ -19,4 +19,10 @@ export class SubscriptionAdminController {
       // Return the order details and created subscription admin to the client
       return { order, subscriptionAdmin };
     }
+
+  // @Get(':id')
+  // async findByEmail(@Param('id') id: number) {
+  //   // Retrieve subscription admin by ID
+  //   return this.subscriptionAdminService.findByEmail(id);
+  // }
 }
