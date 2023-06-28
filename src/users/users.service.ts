@@ -13,13 +13,21 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { userPassword, ...rest } = createUserDto; // Destructure userPassword from the DTO
-    const hashedPassword = createHash('sha1').update(userPassword).digest('hex');
-  
-    const user = this.userRepository.create({ ...rest, userPassword: hashedPassword }); // Spread the remaining properties of the DTO
-  
-    return this.userRepository.save(user);
+    const user = this.userRepository.create(createUserDto);
+    await user.save();
+
+    // delete user.password;
+    return user;
   }
+ 
+  // async create(createUserDto: CreateUserDto): Promise<User> {
+  //   const { userPassword, ...rest } = createUserDto; // Destructure userPassword from the DTO
+  //   const hashedPassword = createHash('sha1').update(userPassword).digest('hex');
+  
+  //   const user = this.userRepository.create({ ...rest, userPassword: hashedPassword }); // Spread the remaining properties of the DTO
+  
+  //   return this.userRepository.save(user);
+  // }
 
   async findAll(): Promise<User[]> {
     return this.userRepository.find();
